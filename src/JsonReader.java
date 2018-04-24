@@ -13,6 +13,12 @@ import org.json.JSONObject;
 
 public class JsonReader {
 
+
+    public static double getPrice() throws IOException, JSONException{
+        JSONObject json = readJsonFromUrl("https://api.binance.com/api/v1/ticker/price?symbol=ETHUSDT");
+        return Double.parseDouble((String)json.get("price"));
+    }
+
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
@@ -36,7 +42,7 @@ public class JsonReader {
 
 //    public static void main(String[] args) throws IOException, JSONException {
 //        JSONObject json = readJsonFromUrl("https://api.binance.com/api/v1/ticker/price?symbol=ETHUSDT");
-//        System.out.println(json.toString());
-//        System.out.println(json.get("price"));
+//
+//
 //    }
 }
