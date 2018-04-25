@@ -11,21 +11,39 @@ public class Draw extends JPanel implements ActionListener {
 
     private int bottom = View.getWindowH();
 
-    private point leadPoint = new point(-2,bottom/2);
-    private point trailPoint = new point(-2,bottom/2);
+    private point leadPoint;
+    private point trailPoint;
+
     private point costPos = new point(20, 30);
+    private point balPos = new point(20, 20);
 
     private double cost = 0;
     private int resetNum = 0;
-
+    private double screenPos = 0;
+    private int increment = 0;
 
     public Draw() {
         setSize(800,600);
-        //tick/second
-        Timer clock = new Timer(10,this);
+        setScreenPos();
+
+        resetPoints();
+
+        Timer clock = new Timer(100,this);
         clock.start();
     }
-
+    public void setScreenPos(){
+        try{
+            cost = JsonReader.getPrice();
+        }
+        catch(IOException ioE){}
+        catch(JSONException jsonE){}
+        //cost = 100;
+        screenPos = -1*(((cost*10)*10)+((cost%1)*100)-(bottom/2));
+    }
+    public void resetPoints(){
+        leadPoint = new point(0,(int)screenPos);
+        trailPoint = new point(0,(int)screenPos);
+    }
     public void paintComponent(Graphics g){
         //paint occurs when the method repaint() is called (see actionPerformed method )
         Graphics2D g2d = (Graphics2D) g;
@@ -34,8 +52,10 @@ public class Draw extends JPanel implements ActionListener {
         if(leadPoint.getX() > 800)
         {
             super.paintComponent(g2d);
-            leadPoint = new point(-5,bottom/2);
-            trailPoint = new point(-5,bottom/2);
+            setScreenPos();
+
+            resetPoints();
+
 
             resetNum++;
         }//else if(leadPoint.getX() < 20 || leadPoint.getX() > 780)super.paintComponent(g2d);
@@ -53,7 +73,7 @@ public class Draw extends JPanel implements ActionListener {
 
 
         g2d.drawString("Last Price:  $"+cost, costPos.getX(), costPos.getY());
-//        g2d.drawString("XRP: "+coinNum, balPos.getX()-200, balPos.getY());
+        g2d.drawString("Inc: "+increment, balPos.getX(), balPos.getY());
 //        g2d.drawString("USD: $"+bal, balPos.getX(), balPos.getY());
 
     }//end paint
@@ -64,12 +84,21 @@ public class Draw extends JPanel implements ActionListener {
         catch(IOException ioE){}
         catch(JSONException jsonE){}
 
+
+
         double x = leadPoint.getX();
         double y = leadPoint.getY();
 
         trailPoint.setXY((int)x,(int)y);
-        x+=1;
-        y=cost*100-70300;
+        x+=4;
+
+
+        //setting up autoscroll when pricechanges
+        //if(cost)
+        //increment += 5;
+
+        y = -1*(((cost%100))+((cost%10)*10)-(bottom/2));
+
         leadPoint.setXY((int)x,(int)y);
 
     }//end updateVectors
