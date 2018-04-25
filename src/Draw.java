@@ -19,30 +19,27 @@ public class Draw extends JPanel implements ActionListener {
 
     private double cost = 0;
     private int resetNum = 0;
-    private double screenPos = 0;
     private int increment = 0;
 
     public Draw() {
-        setSize(800,600);
-        setScreenPos();
-
+        setSize(800, 600);
+        setCost();
         resetPoints();
 
-        Timer clock = new Timer(100,this);
+        Timer clock = new Timer(100, this);
         clock.start();
     }
-    public void setScreenPos(){
+
+    public void setCost() {
         try{
-            cost = JsonReader.getPrice();
-        }
+            this.cost = JsonReader.getPrice();}
         catch(IOException ioE){}
         catch(JSONException jsonE){}
-        //cost = 100;
-        screenPos = -1*(((cost*10)*10)+((cost%1)*100)-(bottom/2));
     }
+
     public void resetPoints(){
-        leadPoint = new point(0,(int)screenPos);
-        trailPoint = new point(0,(int)screenPos);
+        leadPoint = new point(0,(int)cost);
+        trailPoint = new point(0,(int)cost);
     }
     public void paintComponent(Graphics g){
         //paint occurs when the method repaint() is called (see actionPerformed method )
@@ -52,13 +49,11 @@ public class Draw extends JPanel implements ActionListener {
         if(leadPoint.getX() > 800)
         {
             super.paintComponent(g2d);
-            setScreenPos();
-
             resetPoints();
 
 
             resetNum++;
-        }//else if(leadPoint.getX() < 20 || leadPoint.getX() > 780)super.paintComponent(g2d);
+        }
 
         //set bull/bear color
 
@@ -79,10 +74,7 @@ public class Draw extends JPanel implements ActionListener {
     }//end paint
 
     private void updateVectors() {
-        try{
-        cost = JsonReader.getPrice();}
-        catch(IOException ioE){}
-        catch(JSONException jsonE){}
+
 
 
 
@@ -97,7 +89,7 @@ public class Draw extends JPanel implements ActionListener {
         //if(cost)
         //increment += 5;
 
-        y = -1*(((cost%100))+((cost%10)*10)-(bottom/2));
+        y = cost;
 
         leadPoint.setXY((int)x,(int)y);
 
