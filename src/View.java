@@ -32,7 +32,7 @@ public class View implements ActionListener {
         frame.setSize(windowW,windowH);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//      frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
     }
@@ -41,9 +41,8 @@ public class View implements ActionListener {
 
 
         centerPanel = new Draw();
-        centerPanel.setBackground(Color.green);
+        centerPanel.setBackground(Color.white);
         centerPanel.setSize(windowW,windowH);
-
 
         frame.add(centerPanel);
     }
