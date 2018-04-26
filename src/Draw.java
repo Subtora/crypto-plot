@@ -7,93 +7,47 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Random;
 
+
 public class Draw extends JPanel implements ActionListener {
 
-    private int bottom = View.getWindowH();
+    private int height = View.getWindowH();
+    private int width = View.getWindowW();
+    private int screenPos = 0;
+    private int rectSize = 490;
 
-    private point leadPoint;
-    private point trailPoint;
-
-    private point costPos = new point(20, 30);
-    private point balPos = new point(20, 20);
-
-    private double cost = 0;
-    private int resetNum = 0;
-    private int increment = 0;
 
     public Draw() {
-        setSize(800, 600);
-        setCost();
-        resetPoints();
+        setSize(View.windowW, View.windowH);
 
-        Timer clock = new Timer(100, this);
+        Timer clock = new Timer(10, this);
         clock.start();
     }
 
-    public void setCost() {
+    public double liveCost() {
         try{
-            this.cost = JsonReader.getPrice();}
+            return JsonReader.getPrice();}
         catch(IOException ioE){}
         catch(JSONException jsonE){}
+        return -1;
     }
 
-    public void resetPoints(){
-        leadPoint = new point(0,(int)cost);
-        trailPoint = new point(0,(int)cost);
-    }
     public void paintComponent(Graphics g){
-        //paint occurs when the method repaint() is called (see actionPerformed method )
         Graphics2D g2d = (Graphics2D) g;
+        super.paintComponent(g2d);
 
+        g2d.setColor(Color.red);
+        g2d.fillRect((width/2)-(rectSize/2)+screenPos, (height/2)-(rectSize/2), rectSize, rectSize);
+//
+//        g2d.drawLine(leadPoint.getX(), leadPoint.getY(), trailPoint.getX(), trailPoint.getY());
 
-        if(leadPoint.getX() > 800)
-        {
-            super.paintComponent(g2d);
-            resetPoints();
+//
+//        g2d.drawString("Last Price:  $"+cost, costPos.getX(), costPos.getY());
 
-
-            resetNum++;
-        }
-
-        //set bull/bear color
-
-        g2d.setColor(new Color(47,49,49));
-        g2d.fillRect(0,0,800,50);
-
-        if(leadPoint.getY()>trailPoint.getY())g.setColor(Color.RED);
-        if(leadPoint.getY()<trailPoint.getY())g.setColor(new Color(8,200, 133));
-
-        g2d.drawLine(leadPoint.getX(), leadPoint.getY(), trailPoint.getX(), trailPoint.getY());
-        g2d.setColor(Color.WHITE);
-
-
-        g2d.drawString("Last Price:  $"+cost, costPos.getX(), costPos.getY());
-        g2d.drawString("Inc: "+increment, balPos.getX(), balPos.getY());
-//        g2d.drawString("USD: $"+bal, balPos.getX(), balPos.getY());
-
-    }//end paint
+    }
 
     private void updateVectors() {
-
-
-
-
-        double x = leadPoint.getX();
-        double y = leadPoint.getY();
-
-        trailPoint.setXY((int)x,(int)y);
-        x+=4;
-
-
-        //setting up autoscroll when pricechanges
-        //if(cost)
-        //increment += 5;
-
-        y = cost;
-
-        leadPoint.setXY((int)x,(int)y);
-
-    }//end updateVectors
+        screenPos-=1;
+    }
 
     public void actionPerformed(ActionEvent arg0) {
         repaint();

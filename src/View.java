@@ -10,11 +10,10 @@ import java.util.*;
 public class View implements ActionListener {
 
     private JFrame frame;
-    private JPanel topPanel;
     private JPanel centerPanel;
 
-    public static int windowH = 600;
-    public static int windowW = 800;
+    public static int windowH = 500;
+    public static int windowW = 500;
 
     public View(){
         setupFrame();
@@ -30,20 +29,23 @@ public class View implements ActionListener {
     }
     private void setupFrame() {
         frame = new JFrame("ETH:USDT BINANCE");
-        frame.setSize(800,600);
+        frame.setSize(windowW,windowH);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
     }
 
     private void setupPanels() {
 
-        topPanel = new JPanel();
-        topPanel.setBackground(new Color(47,49,49));
+
         centerPanel = new Draw();
-        frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(centerPanel, BorderLayout.CENTER);
+        centerPanel.setBackground(Color.green);
+        centerPanel.setSize(windowW,windowH);
+
+
+        frame.add(centerPanel);
     }
 
     public void actionPerformed(ActionEvent event) {
