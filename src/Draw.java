@@ -18,7 +18,6 @@ public class Draw extends JPanel implements ActionListener {
     private double cost = 0;
     private int resetNum = 0;
 
-
     public Draw() {
         setSize(800,600);
         //tick/second
