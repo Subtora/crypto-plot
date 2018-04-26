@@ -2,6 +2,8 @@ public class point
 {
     private int x;
     private int y;
+    private double price;
+
 
     public point() {
         this.x = 0;
@@ -12,20 +14,19 @@ public class point
         this.y = y;
     }
     public int getX() {
-        return this.x;
+        return x;
     }
-    public int getY()
-    {
-        return this.y;
+    public int getY() {
+        return y;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
     }
     public void setXY(int x, int y){
         this.x = x;
-        this.y = y;
-    }
-    public void setX(int x){
-        this.x = x;
-    }
-    public void setY(int y){
         this.y = y;
     }
 }
