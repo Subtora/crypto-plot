@@ -1,5 +1,5 @@
 public class point
-{
+{ //comment
     private int x;
     private int y;
 
